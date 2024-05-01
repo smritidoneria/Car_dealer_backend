@@ -6,15 +6,15 @@ import { ObjectId } from 'mongodb';
 
 export async function Car(req, res, next) {
     try {
-        // Connect to the database
+      
         await connectToDb();
         const db = getDb();
         const carsCollection = db.collection('cars');
     
-        // Fetch all cars from the database
+      
         const cars = await carsCollection.find({}).toArray();
     
-        // Send the cars as a response
+        
         res.json({ cars });
       } catch (error) {
         console.error('Error fetching cars:', error);
@@ -53,25 +53,25 @@ export async function purchased(req, res, next) {
 
 
 export async function fetchDealerByCar(req, res, next) {
-    const carId = req.params.carId; // Assuming carId is passed as a parameter
+    const carId = req.params.carId; 
 
     try {
         const db = getDb();
         const dealershipCollection = db.collection('dealership');
 
-        // Convert carId to ObjectId
+      
         const objectIdCarId = new ObjectId(carId);
 
-        // Find the dealership where cars array contains the carId
+       
         const dealer = await dealershipCollection.findOne({ cars: objectIdCarId });
         console.log("}}}}}}}",dealer)
 
         if (!dealer) {
-            // If no dealership found with the specified carId, send a 404 response
+           
             return res.status(404).json({ message: 'Dealer not found for the specified car' });
         }
 
-        // Send the dealer information in the response
+       
         res.status(200).json(dealer);
     } catch (error) {
         console.error('Error fetching dealer by car:', error);
