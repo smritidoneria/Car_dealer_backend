@@ -12,11 +12,11 @@ export function connectToDb(cb) {
     .then(client => {
       dbConnection = client.db();
       console.log("Connected to MongoDB");
-      cb(); // Call the callback function when connected successfully
+      cb(); 
     })
     .catch(err => {
       console.error('Error connecting to MongoDB:', err);
-      cb(err); // Call the callback function with the error if connection fails
+      cb(err); 
     });
 }
 export function getDb() { return dbConnection; }
