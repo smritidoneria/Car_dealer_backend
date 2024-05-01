@@ -117,28 +117,7 @@ export async function forgotpassworduser(req, res, next){
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
           }
-        /*
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com', // SMTP host (e.g., smtp.gmail.com for Gmail)
-            port: 587, // Port for SMTP
-            secure: false, // true for 465, false for other ports; if true, use SSL
-            auth: {
-              user: 'smritidoneria@gmail.com', // Your email address
-              pass: 'Smriti@123', // Your email password
-            },
-          });
-          const mailOptions = {
-            from: 'smritidoneria@gmail.com',
-            to: user.user_email,
-            subject: 'Password Reset Request',
-            text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n`
-              + `Please click on the following link, or paste this into your browser to complete the process:\n\n`
-              + `http://localhost:8000/api/user/resetpassword/${token}\n\n`
-              + `If you did not request this, please ignore this email and your password will remain unchanged.\n`
-          };
-      
-          await transporter.sendMail(mailOptions);
-          */
+        
          const link=`http://localhost:3000/user/resetPassword/${token}`
         res.status(200).json({ link });
 
