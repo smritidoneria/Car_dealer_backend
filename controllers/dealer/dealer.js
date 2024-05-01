@@ -16,13 +16,13 @@ export async function Car(req, res, next) {
         const dealer = await dealerCollection.findOne({ dealership_email: req.user.email });
         
         console.log(dealer);
-        // Check if car ID already exists
+       
         const existingCar = await carsCollection.findOne({ car_id });
         if (existingCar) {
             return res.status(400).json({ message: 'Car ID already exists' });
         }
 
-        // Create a new car object
+      
         const newCar = {
             car_id,
             type,
@@ -31,10 +31,10 @@ export async function Car(req, res, next) {
             car_info
         };
 
-        // Insert the new car into the database
+
         await carsCollection.insertOne(newCar);
 
-        // Update the dealer's cars array with the new car ID
+        
         await dealerCollection.updateOne({dealership_email: req.user.email }, { $push: { cars: newCar._id } });
 
         res.status(201).json({ message: 'Car registered successfully' });
@@ -49,7 +49,7 @@ export async function soldVehicles(req, res, next) {
     const carId = req.params.carId;
     console.log("++++",carId);
 
-     // Get the carId from URL params
+
 
     try {
         await connectToDb();
@@ -141,21 +141,21 @@ export async function getSoldCars(req, res, next) {
         const user = await dealerCollection.findOne({ dealership_email: req.user.email });
         const carIds = user.cars;
 
-        // Array to store the details of sold cars
+   
         const soldCars = [];
 
-        // Iterate through each car ID in the user's cars array
+       
         for (const carId of carIds) {
-            // Find the car in the cars collection
+         
             const car = await carCollection.findOne({ _id: carId });
 
-            // Check if the car exists and is sold
+        
             if (car && car.sold) {
                 soldCars.push(car);
             }
         }
 
-        // Return the details of sold cars
+
         res.json({ soldCars });
     } catch (error) {
         console.error('Error fetching sold cars:', error);
@@ -185,7 +185,7 @@ export async function getCarBySearch(req, res, next) {
         console.log(">>>>",cars);
         res.status(200).json({ cars });
     } catch (error) {
-        // Handle errors
+       
         console.error('Error fetching cars by dealer name:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
